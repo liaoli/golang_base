@@ -12,9 +12,13 @@ func main() {
 	//
 	//deferDemo1()
 
-	deferDemo2()
+	//deferDemo2()
 
-	deferDemo3()
+	//deferDemo3()
+
+	//oopDemo()
+
+	referencePointer()
 }
 
 //作用域的问题
