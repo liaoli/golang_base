@@ -18,7 +18,14 @@ func main() {
 
 	//oopDemo()
 
-	referencePointer()
+	//referencePointer()
+	//testPeptide()
+
+	//testEmptyInterface()
+	//errorDemo()
+	//testPanic()
+
+	testRecover()
 }
 
 //作用域的问题
