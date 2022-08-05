@@ -26,7 +26,8 @@ func main() {
 	//testPanic()
 
 	//testRecover()
-	stringDemo()
+	//stringDemo()
+	sliceDemo()
 }
 
 //作用域的问题
