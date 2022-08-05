@@ -1,2 +1,2 @@
 # golang_base
-go 语音基础
+go 语言基础
