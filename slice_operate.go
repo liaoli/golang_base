@@ -1,13 +1,11 @@
 package main
 
+import "fmt"
+
 /**
 *@author: 廖理
 *@date:2022/8/5
 **/
-
-func sliceDemo() {
-
-}
 
 //
 //指针：
@@ -117,7 +115,7 @@ func sliceDemo() {
 //map 不能使用 cap（）
 //
 //创建方式：
-//1.  var m1 map[int]string		--- 不能存储数据
+//1.  var m1 map[int]string		--- 不能存储数据-
 //
 //2. m2 := map[int]string{}		---能存储数据
 //
@@ -162,3 +160,31 @@ func sliceDemo() {
 //delete（map， key）	删除一个不存在的key ， 不会报错。
 //
 //map 做函数参数和返回值，传引用。
+
+//要删除slice中间的某个元素并保存原有的元素顺序， 如：
+//{5, 6, 7, 8, 9} ——> {5, 6, 8, 9}
+
+func deleteSliceItem() {
+	slice := []int64{5, 6, 7, 8, 9}
+	fmt.Printf("删除前：%v\n", slice)
+
+	dest := slice[2:]
+
+	src := slice[3:]
+	fmt.Printf("dest：%v\n", dest)
+	fmt.Printf("src：%v\n", src)
+
+	copy(dest, src)
+
+	result := slice[:len(slice)-1]
+
+	fmt.Printf("删除后dest：%v\n", dest)
+	fmt.Printf("删除后slice：%v\n", slice)
+	fmt.Printf("删除后result：%v\n", result)
+
+}
+
+func remove(data []int, idx int) []int {
+	copy(data[idx:], data[idx+1:])
+	return data[:len(data)-1]
+}

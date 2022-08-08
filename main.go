@@ -27,7 +27,8 @@ func main() {
 
 	//testRecover()
 	//stringDemo()
-	sliceDemo()
+	deleteSliceItem()
+
 }
 
 //作用域的问题
