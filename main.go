@@ -35,8 +35,8 @@ func main() {
 	//
 	//fmt.Print(r)
 
-	//structDemo()
-	FileDemo()
+	structDemo()
+	//FileDemo()
 }
 
 //作用域的问题
