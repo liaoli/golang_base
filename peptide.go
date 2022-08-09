@@ -63,8 +63,10 @@ type Animal struct {
 
 type Cat struct {
 	Animal
+	age int64
 }
 
 type Dog struct {
 	Animal
+	age int32
 }

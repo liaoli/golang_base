@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 var a int64
 
@@ -27,8 +29,14 @@ func main() {
 
 	//testRecover()
 	//stringDemo()
-	deleteSliceItem()
+	//deleteSliceItem()
+	//
+	//r:=rand.Perm(10)
+	//
+	//fmt.Print(r)
 
+	//structDemo()
+	FileDemo()
 }
 
 //作用域的问题
