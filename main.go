@@ -35,8 +35,9 @@ func main() {
 	//
 	//fmt.Print(r)
 
-	structDemo()
+	//structDemo()
 	//FileDemo()
+	goroutinesDemo()
 }
 
 //作用域的问题
