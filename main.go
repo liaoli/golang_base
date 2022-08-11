@@ -38,7 +38,9 @@ func main() {
 	//structDemo()
 	//FileDemo()
 	//goroutinesDemo()
-	lockDemo()
+	//lockDemo()
+	syncSysMap()
+	//syncMapDemo()
 }
 
 //作用域的问题
