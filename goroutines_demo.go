@@ -13,6 +13,18 @@ import (
 //学习播客地址：https://www.liwenzhou.com/posts/Go/concurrence/
 var wg sync.WaitGroup
 
+//其实在 Go 程序启动时，Go 程序就会为 main 函数创建一个默认的 goroutine 。
+//在上面的代码中我们在 main 函数中使用 go 关键字创建了另外一个 goroutine 去执行 hello 函数，
+//而此时 main goroutine 还在继续往下执行，我们的程序中此时存在两个并发执行的 goroutine。
+//当 main 函数结束时整个程序也就结束了，同时 main goroutine 也结束了，所有由 main goroutine 创建的 goroutine 也会一同退出。
+//也就是说我们的 main 函数退出太快，另外一个 goroutine 中的函数还未执行完程序就退出了，导致未打印出“hello”。
+//
+//main goroutine 就像是《权利的游戏》中的夜王，其他的 goroutine 都是夜王转化出的异鬼，夜王一死它转化的那些异鬼也就全部GG了。
+//
+//所以我们要想办法让 main 函数‘“等一等”将在另一个 goroutine 中运行的 hello 函数。
+//其中最简单粗暴的方式就是在 main 函数中“time.Sleep”一秒钟了
+//（这里的1秒钟只是我们为了保证新的 goroutine 能够被正常创建和执行而设置的一个值）。
+
 func demo1() {
 	go spinner(100 * time.Millisecond)
 	const n = 44
@@ -36,7 +48,17 @@ func fib(x int) int {
 	return fib(x-1) + fib(x-2)
 }
 
-func channelDemo() {
+//sync.WaitGroup
+//在代码中生硬的使用time.Sleep肯定是不合适的，Go语言中可以使用sync.WaitGroup来实现并发任务的同步。 sync.WaitGroup有以下几个方法：
+//
+//方法名	功能
+//func (wg * WaitGroup) Add(delta int)	计数器+delta
+//(wg *WaitGroup) Done()	计数器-1
+//(wg *WaitGroup) Wait()	阻塞直到计数器变为0
+//sync.WaitGroup内部维护着一个计数器，计数器的值可以增加和减少。例如当我们启动了 N 个并发任务时，就将计数器值增加N。
+//每个任务完成时通过调用 Done 方法将计数器减1。通过调用 Wait 来等待并发任务执行完，当计数器值为 0 时，表示所有并发任务已经完成。
+
+func waitGroupDemo() {
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
 		go func() {
@@ -46,6 +68,18 @@ func channelDemo() {
 	}
 
 	wg.Wait()
+}
+
+func hello(i int) {
+	defer wg.Done() // goroutine结束就登记-1
+	fmt.Println("hello", i)
+}
+func waitGroupDemo2() {
+	for i := 0; i < 10; i++ {
+		wg.Add(1) // 启动一个goroutine就登记+1
+		go hello(i)
+	}
+	wg.Wait() // 等待所有登记的goroutine都结束
 }
 
 //fatal error: all goroutines are asleep - deadlock!
@@ -271,6 +305,73 @@ func channelDemo8() {
 		}
 	}
 }
+
+//并发数据安全问题
+
+var (
+	x int64
+)
+
+// add 对全局变量x执行5000次加1操作
+func add() {
+	for i := 0; i < 5000; i++ {
+		x = x + 1
+	}
+	wg.Done()
+}
+
+//当有多个goroutine 操作同一个数据的时候就会出现数据安全问题
+//可以通过锁来解决
+func syncDemo() {
+	wg.Add(2)
+
+	go add()
+	go add()
+
+	wg.Wait()
+	fmt.Println(x)
+}
+
+//互斥锁 sync.Mutex
+var m sync.Mutex // 互斥锁 确保同一时间只有一个goroutine在操作数据
+func addWithMutexLock() {
+	for i := 0; i < 5000; i++ {
+		m.Lock() //申请锁
+		x = x + 1
+		m.Unlock() //使用完成释放锁
+	}
+	wg.Done()
+}
+
+//使用互斥锁能够保证同一时间有且只有一个 goroutine 进入临界区，其他的 goroutine 则在等待锁；
+//当互斥锁释放后，等待的 goroutine 才可以获取锁进入临界区，多个 goroutine 同时等待一个锁时，
+//唤醒的策略是随机的。
+func syncMutexLockDemo() {
+	wg.Add(2)
+
+	go addWithMutexLock()
+	go addWithMutexLock()
+
+	wg.Wait()
+	fmt.Println(x)
+}
+
+//读写互斥锁
+//互斥锁是完全互斥的，但是实际上有很多场景是读多写少的，当我们并发的去读取一个资源而不涉及资源修改的时候是没有必要加互斥锁的，
+//这种场景下使用读写锁是更好的一种选择。读写锁在 Go 语言中使用sync包中的RWMutex类型
+//sync.RWMutex提供了以下5个方法。
+//
+//方法名	功能
+//func (rw *RWMutex) Lock()	获取写锁
+//func (rw *RWMutex) Unlock()	释放写锁
+//func (rw *RWMutex) RLock()	获取读锁
+//func (rw *RWMutex) RUnlock()	释放读锁
+//func (rw *RWMutex) RLocker() Locker	返回一个实现Locker接口的读写锁
+//读写锁分为两种：读锁和写锁。当一个 goroutine 获取到读锁之后，其他的 goroutine 如果是获取读锁会继续获得锁，如果是获取写锁就会等待；
+//而当一个 goroutine 获取写锁之后，其他的 goroutine 无论是获取读锁还是写锁都会等待。
+//
+//下面我们使用代码构造一个读多写少的场景，然后分别使用互斥锁和读写锁查看它们的性能差异。
+
 func goroutinesDemo() {
-	channelDemo8()
+	syncMutexLockDemo()
 }

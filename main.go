@@ -37,7 +37,8 @@ func main() {
 
 	//structDemo()
 	//FileDemo()
-	goroutinesDemo()
+	//goroutinesDemo()
+	lockDemo()
 }
 
 //作用域的问题
