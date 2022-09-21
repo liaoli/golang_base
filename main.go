@@ -28,7 +28,7 @@ func main() {
 	//testPanic()
 
 	//testRecover()
-	//stringDemo()
+	stringDemo()
 	//deleteSliceItem()
 	//
 	//r:=rand.Perm(10)
@@ -39,7 +39,7 @@ func main() {
 	//FileDemo()
 	//goroutinesDemo()
 	//lockDemo()
-	syncSysMap()
+	//syncSysMap()
 	//syncMapDemo()
 }
 
@@ -98,14 +98,6 @@ func closer() func() int64 {
 	}
 }
 
-func f1() (r int64) {
-	defer func() {
-		r++
-	}()
-	r = 1
-	return
-}
-
 //defer demo 1
 func deferDemo1() {
 	//closer( )函数时指定了返回的类型是一个匿名函数，并且该匿名函数返回的类型是整型。
@@ -139,10 +131,17 @@ func deferDemo2() {
 	r := f()
 	fmt.Printf("r = %d\n", r) //r=2,说明defer 的函数是在return之前执行的
 }
+func f1() (r int64) {
+	defer func() {
+		r++
+	}()
+	r = 1
+	return
+}
 
 //deferDemo3 defer 执行的时间
 func deferDemo3() {
-	fmt.Printf("r = %d", triple(5)) //r=15,说明defer 函数 在double函数之后执行
+	fmt.Printf("r = %d\n", triple(5)) //r=15,说明defer 函数 在double函数之后执行
 }
 
 func double(x int64) int64 {
@@ -151,9 +150,13 @@ func double(x int64) int64 {
 
 func triple(x int64) (r int64) {
 
+	fmt.Printf("r------%d\n", r) //r------0
 	defer func() {
-		r += x
-	}()
+		fmt.Printf("r+++++++++%d\n", r) //r+++++++++10
 
+		r += x
+		fmt.Printf("r======%d\n", r) //r======15
+	}()
+	fmt.Printf("r>>>>>>>>%d\n", r) //r>>>>>>>>0
 	return double(x)
 }

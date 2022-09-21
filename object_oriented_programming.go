@@ -28,7 +28,7 @@ func oopDemo() {
 	fmt.Printf("结构体默认值：%v\n", st1)
 	st1.age = 10
 	st1.name = "tom"
-	fmt.Printf("结构体复制后：%v\n", st1)
+	fmt.Printf("结构体赋值后：%v\n", st1)
 	var st Student = Student{Person{1, "lily", 25}, 90, "cc"}
 	fmt.Printf("结构体初始化赋值：%v\n", st)
 
