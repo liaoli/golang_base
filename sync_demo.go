@@ -74,7 +74,7 @@ func do(wf, rf func(), wc, rc int) {
 //不过需要注意的是如果一个程序中的读操作和写操作数量级差别不大，那么读写互斥锁的优势就发挥不出来。
 func lockDemo() {
 
-	do(writeWithLock, readWithLock, 100, 1000)
-	do(writeWithRWLock, readWithRWLock, 100, 1000)
+	do(writeWithLock, readWithLock, 1000, 1000)
+	do(writeWithRWLock, readWithRWLock, 1000, 1000)
 
 }

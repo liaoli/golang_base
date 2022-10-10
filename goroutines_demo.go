@@ -59,15 +59,19 @@ func fib(x int) int {
 //每个任务完成时通过调用 Done 方法将计数器减1。通过调用 Wait 来等待并发任务执行完，当计数器值为 0 时，表示所有并发任务已经完成。
 
 func waitGroupDemo() {
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 10; i++ {
 		wg.Add(1)
 		go func() {
-			defer wg.Done()
-			fmt.Println(i)
+			print(i)
 		}()
 	}
 
 	wg.Wait()
+}
+
+func print(i int) {
+	defer wg.Done()
+	fmt.Println(i)
 }
 
 func hello(i int) {
@@ -108,6 +112,7 @@ func channelDemo2() {
 func recv(c chan int) {
 	ret := <-c
 	fmt.Println("接收成功", ret)
+	wg.Done()
 }
 
 //首先无缓冲通道ch上的发送操作会阻塞，直到另一个 goroutine 在该通道上执行接收操作，这时数字10才能发送成功，
@@ -123,9 +128,11 @@ func recv(c chan int) {
 
 func channelDemo3() {
 	ch := make(chan int, 1)
+	wg.Add(1)
 	go recv(ch)
 	ch <- 10
 	fmt.Println("发送成功")
+	wg.Wait()
 }
 
 //注意：一个通道值是可以被垃圾回收掉的。通道通常由发送方执行关闭操作，并且只有在接收方明确等待通道关闭的信号时才需要执行关闭操作。
@@ -182,9 +189,13 @@ func f3(ch chan int) {
 //注意：目前Go语言中并没有提供一个不对通道进行读取操作就能判断通道是否被关闭的方法。
 //不能简单的通过len(ch)操作来判断通道是否被关闭。
 func channelDemo5() {
-	ch := make(chan int, 2)
+	ch := make(chan int, 6)
 	ch <- 1
 	ch <- 2
+	ch <- 3
+	ch <- 4
+	ch <- 5
+	ch <- 6
 	close(ch)
 	f3(ch)
 }
@@ -374,7 +385,16 @@ func syncMutexLockDemo() {
 
 func goroutinesDemo() {
 	//demo1()
-	waitGroupDemo()
-	waitGroupDemo2()
-	//syncMutexLockDemo()
+	//waitGroupDemo()
+	//waitGroupDemo2()
+	//channelDemo1()
+	//channelDemo2()
+	//channelDemo3()
+	//channelDemo4()
+	//channelDemo5()
+	//channelDemo6()
+	//channelDemo7()
+	//channelDemo8()
+	//syncDemo()
+	syncMutexLockDemo()
 }

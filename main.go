@@ -37,10 +37,10 @@ func main() {
 
 	//structDemo()
 	//FileDemo()
-	goroutinesDemo()
+	//goroutinesDemo()
 	//lockDemo()
 	//syncSysMap()
-	//syncMapDemo()
+	syncMapDemo()
 }
 
 //作用域的问题
