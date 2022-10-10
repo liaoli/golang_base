@@ -62,8 +62,8 @@ func waitGroupDemo() {
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
 		go func() {
+			defer wg.Done()
 			fmt.Println(i)
-			wg.Done()
 		}()
 	}
 
@@ -373,5 +373,8 @@ func syncMutexLockDemo() {
 //下面我们使用代码构造一个读多写少的场景，然后分别使用互斥锁和读写锁查看它们的性能差异。
 
 func goroutinesDemo() {
-	syncMutexLockDemo()
+	//demo1()
+	waitGroupDemo()
+	waitGroupDemo2()
+	//syncMutexLockDemo()
 }

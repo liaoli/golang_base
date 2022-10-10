@@ -28,16 +28,16 @@ func main() {
 	//testPanic()
 
 	//testRecover()
-	stringDemo()
+	//stringDemo()
 	//deleteSliceItem()
-	//
-	//r:=rand.Perm(10)
+
+	//r:=rand.Perm(10) //获取随机数的工具类
 	//
 	//fmt.Print(r)
 
 	//structDemo()
 	//FileDemo()
-	//goroutinesDemo()
+	goroutinesDemo()
 	//lockDemo()
 	//syncSysMap()
 	//syncMapDemo()

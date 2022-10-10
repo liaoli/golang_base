@@ -237,7 +237,12 @@ import (
 //C:/itcast/test
 
 func FileDemo() {
-	dirDemo()
+	//dirDemo()
+	//openFileDemo1()
+	//openFileDemo()
+	//readFile()
+
+	copyFile()
 }
 
 func openFileDemo1() {
@@ -254,7 +259,7 @@ func openFileDemo1() {
 	if err != nil {
 		fmt.Println("写文件错误 err:", err)
 	}
-	fmt.Println("写文件成功")
+
 }
 
 func openFileDemo() { //
@@ -292,6 +297,7 @@ func readFile() {
 		buf, err := reader.ReadBytes('\n')
 
 		if err != nil && err == io.EOF {
+			fmt.Println(string(buf))
 			fmt.Println("读取文本完毕")
 			return
 		} else if err != nil {
@@ -325,6 +331,7 @@ func copyFile() {
 		n, err := f_r.Read(buf)
 		if err != nil {
 			if err == io.EOF {
+				f_w.Write(buf[:n])
 				fmt.Printf("读取文件完毕,n=%d\n，复制文件完成", n)
 				return
 			}
