@@ -37,10 +37,18 @@ func main() {
 
 	//structDemo()
 	//FileDemo()
-	//goroutinesDemo()
+	goroutinesDemo()
 	//lockDemo()
 	//syncSysMap()
-	syncMapDemo()
+	//syncMapDemo()
+
+	//date := "20221001"
+	//
+	//t, err := time.Parse( "20060102",date )
+	//
+	//if err == nil {
+	//	println(t.String())
+	//}
 }
 
 //作用域的问题

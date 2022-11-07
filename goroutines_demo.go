@@ -61,9 +61,9 @@ func fib(x int) int {
 func waitGroupDemo() {
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
-		go func() {
+		go func(i int) {
 			print(i)
-		}()
+		}(i)
 	}
 
 	wg.Wait()
@@ -85,6 +85,72 @@ func waitGroupDemo2() {
 	}
 	wg.Wait() // 等待所有登记的goroutine都结束
 }
+
+//Go语言采用的并发模型是CSP（Communicating Sequential Processes），提倡通过通信共享内存而不是通过共享内存而实现通信。
+//
+//如果说 goroutine 是Go程序并发的执行体，channel就是它们之间的连接。channel是可以让一个 goroutine 发送特定值到另一个 goroutine 的通信机制。
+//
+//Go 语言中的通道（channel）是一种特殊的类型。通道像一个传送带或者队列，总是遵循先入先出（First In First Out）的规则，保证收发数据的顺序。每一个通道都是一个具体类型的导管，也就是声明channel的时候需要为其指定元素类型。
+//
+//channel类型
+//channel是 Go 语言中一种特有的类型。声明通道类型变量的格式如下：
+//
+//var 变量名称 chan 元素类型
+//其中：
+//
+//chan：是关键字
+//元素类型：是指通道中传递元素的类型
+//举几个例子：
+//
+//var ch1 chan int   // 声明一个传递整型的通道
+//var ch2 chan bool  // 声明一个传递布尔型的通道
+//var ch3 chan []int // 声明一个传递int切片的通道
+//channel零值
+//未初始化的通道类型变量其默认零值是nil。
+//
+//var ch chan int
+//fmt.Println(ch) // <nil>
+//初始化channel
+//声明的通道类型变量需要使用内置的make函数初始化之后才能使用。具体格式如下：
+//
+//make(chan 元素类型, [缓冲大小])
+//其中：
+//
+//channel的缓冲大小是可选的。
+//举几个例子：
+//
+//ch4 := make(chan int)
+//ch5 := make(chan bool, 1)  // 声明一个缓冲区大小为1的通道
+//channel操作
+//通道共有发送（send）、接收(receive）和关闭（close）三种操作。而发送和接收操作都使用<-符号。
+//
+//现在我们先使用以下语句定义一个通道：
+//
+//ch := make(chan int)
+//发送
+//将一个值发送到通道中。
+//
+//ch <- 10 // 把10发送到ch中
+//接收
+//从一个通道中接收值。
+//
+//x := <- ch // 从ch中接收值并赋值给变量x
+//<-ch       // 从ch中接收值，忽略结果
+//关闭
+//我们通过调用内置的close函数来关闭通道。
+//
+//close(ch)
+//注意：一个通道值是可以被垃圾回收掉的。通道通常由发送方执行关闭操作，并且只有在接收方明确等待通道关闭的信号时才需要执行关闭操作。它和关闭文件不一样，通常在结束操作之后关闭文件是必须要做的，但关闭通道不是必须的。
+//
+//关闭后的通道有以下特点：
+//
+//对一个关闭的通道再发送值就会导致 panic。
+//对一个关闭的通道进行接收会一直获取值直到通道为空。
+//对一个关闭的并且没有值的通道执行接收操作会得到对应类型的零值。
+//关闭一个已经关闭的通道会导致 panic。
+
+//无缓冲的通道
+//无缓冲的通道又称为阻塞的通道。我们来看一下如下代码片段。
 
 //fatal error: all goroutines are asleep - deadlock!
 
@@ -387,7 +453,7 @@ func goroutinesDemo() {
 	//demo1()
 	//waitGroupDemo()
 	//waitGroupDemo2()
-	//channelDemo1()
+	channelDemo1()
 	//channelDemo2()
 	//channelDemo3()
 	//channelDemo4()
@@ -396,5 +462,5 @@ func goroutinesDemo() {
 	//channelDemo7()
 	//channelDemo8()
 	//syncDemo()
-	syncMutexLockDemo()
+	//syncMutexLockDemo()
 }
