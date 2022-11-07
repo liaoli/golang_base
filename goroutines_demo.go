@@ -178,7 +178,7 @@ func channelDemo2() {
 func recv(c chan int) {
 	ret := <-c
 	fmt.Println("接收成功", ret)
-	wg.Done()
+	//wg.Done()
 }
 
 //首先无缓冲通道ch上的发送操作会阻塞，直到另一个 goroutine 在该通道上执行接收操作，这时数字10才能发送成功，
@@ -195,10 +195,16 @@ func recv(c chan int) {
 func channelDemo3() {
 	ch := make(chan int, 1)
 	wg.Add(1)
-	go recv(ch)
+	go recv1(ch)
 	ch <- 10
 	fmt.Println("发送成功")
 	wg.Wait()
+}
+
+func recv1(c chan int) {
+	ret := <-c
+	fmt.Println("接收成功", ret)
+	wg.Done()
 }
 
 //注意：一个通道值是可以被垃圾回收掉的。通道通常由发送方执行关闭操作，并且只有在接收方明确等待通道关闭的信号时才需要执行关闭操作。
@@ -453,8 +459,8 @@ func goroutinesDemo() {
 	//demo1()
 	//waitGroupDemo()
 	//waitGroupDemo2()
-	channelDemo1()
-	//channelDemo2()
+	//channelDemo1()
+	channelDemo2()
 	//channelDemo3()
 	//channelDemo4()
 	//channelDemo5()
