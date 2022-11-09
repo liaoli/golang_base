@@ -239,15 +239,27 @@ func f2(ch chan int) {
 			break
 		}
 		fmt.Printf("v:%#v ok:%#v\n", v, ok)
+
+		time.Sleep(1 * time.Second)
 	}
 }
 
 func channelDemo4() {
 	ch := make(chan int, 2)
 	ch <- 1
-	ch <- 2
-	close(ch)
-	f2(ch)
+	ch <- 1
+	//close(ch)
+	//go func() {
+	//	for i := 0; i < 10; i++ {
+	//		ch <- 1
+	//	}
+	//	//for {
+	//	//	ch <- 1
+	//	//	//time.Sleep(1)
+	//	//}
+	//}()
+	go f2(ch)
+
 }
 
 func f3(ch chan int) {
@@ -288,6 +300,7 @@ func Producer() chan int {
 			if i%2 == 1 {
 				ch <- i
 			}
+			time.Sleep(1 * time.Second)
 		}
 		close(ch) // 任务完成后关闭通道
 	}()
@@ -460,11 +473,11 @@ func goroutinesDemo() {
 	//waitGroupDemo()
 	//waitGroupDemo2()
 	//channelDemo1()
-	channelDemo2()
+	//channelDemo2()
 	//channelDemo3()
 	//channelDemo4()
 	//channelDemo5()
-	//channelDemo6()
+	channelDemo6()
 	//channelDemo7()
 	//channelDemo8()
 	//syncDemo()
