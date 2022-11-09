@@ -1,6 +1,7 @@
-package mynet
+package tcp
 
 import (
+	proto2 "awesomeProject/net/tcp/proto"
 	"bufio"
 	"fmt"
 	"net"
@@ -10,30 +11,36 @@ import (
 *@author: 廖理
 *@date:2022/11/9
 **/
-
-func process(conn net.Conn) {
+//粘包
+func process3(conn net.Conn) {
 	defer conn.Close()
 
+	reader := bufio.NewReader(conn)
+
 	for {
-		reader := bufio.NewReader(conn)
 
-		var buf [128]byte
-
-		n, err := reader.Read(buf[:])
+		msg, err := proto2.Decode(reader)
 
 		if err != nil {
 			fmt.Println("读取客户端发来的消息失败了")
 			break
 		}
 
-		recStr := string(buf[:n])
-		fmt.Println("客户端发来消息：", recStr)
+		fmt.Println("客户端发来消息：", msg)
 
-		conn.Write([]byte("server收到了：" + recStr))
+		res := "server收到了：" + msg
+
+		data, err := proto2.Encode(res)
+		if err != nil {
+			fmt.Println("encode msg failed, err:", err)
+			return
+		}
+
+		conn.Write(data)
 	}
 }
 
-func StartServer() {
+func StartServer3() {
 
 	listen, err := net.Listen("tcp", "127.0.0.1:20000")
 	if err != nil {
@@ -47,7 +54,7 @@ func StartServer() {
 			fmt.Println("建立连接失败")
 			continue
 		}
-		go process(conn)
+		go process3(conn)
 
 	}
 }

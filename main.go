@@ -1,7 +1,7 @@
 package main
 
 import (
-	mynet "awesomeProject/net"
+	"awesomeProject/net/tcp"
 	"fmt"
 )
 
@@ -51,7 +51,7 @@ func main() {
 	//	println(t.String())
 	//}
 
-	mynet.StartServer3()
+	tcp.StartServer3()
 }
 
 //作用域的问题

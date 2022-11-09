@@ -1,7 +1,7 @@
-package mynet
+package tcp
 
 import (
-	"awesomeProject/net/proto"
+	proto2 "awesomeProject/net/tcp/proto"
 	"bufio"
 	"fmt"
 	"net"
@@ -83,7 +83,7 @@ func startClient3() {
 
 	for i := 0; i < 10; i++ {
 		msg := `Hello, Hello. How are you?`
-		data, err := proto.Encode(msg)
+		data, err := proto2.Encode(msg)
 		if err != nil {
 			fmt.Println("encode msg failed, err:", err)
 			return
@@ -93,7 +93,7 @@ func startClient3() {
 
 	reader := bufio.NewReader(conn)
 	for {
-		msg, err := proto.Decode(reader)
+		msg, err := proto2.Decode(reader)
 
 		if err != nil {
 			fmt.Println("接收服务端消息失败，err:", err)
@@ -123,14 +123,14 @@ func startClient4() {
 			return
 		}
 
-		data, err := proto.Encode(inputInfo)
+		data, err := proto2.Encode(inputInfo)
 		if err != nil {
 			fmt.Println("encode msg failed, err:", err)
 			return
 		}
 		conn.Write(data)
 
-		msg, err := proto.Decode(reader)
+		msg, err := proto2.Decode(reader)
 
 		if err != nil {
 			fmt.Println("接收服务端消息失败，err:", err)
