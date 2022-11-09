@@ -1,6 +1,7 @@
 package main
 
 import (
+	mynet "awesomeProject/net"
 	"fmt"
 )
 
@@ -37,7 +38,7 @@ func main() {
 
 	//structDemo()
 	//FileDemo()
-	goroutinesDemo()
+	//goroutinesDemo()
 	//lockDemo()
 	//syncSysMap()
 	//syncMapDemo()
@@ -49,6 +50,8 @@ func main() {
 	//if err == nil {
 	//	println(t.String())
 	//}
+
+	mynet.StartServer3()
 }
 
 //作用域的问题
