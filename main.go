@@ -1,7 +1,7 @@
 package main
 
 import (
-	"awesomeProject/net/tcp"
+	"awesomeProject/net/udp"
 	"fmt"
 )
 
@@ -51,7 +51,8 @@ func main() {
 	//	println(t.String())
 	//}
 
-	tcp.StartServer3()
+	//tcp.StartServer3()
+	udp.StartServer()
 }
 
 //作用域的问题
