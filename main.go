@@ -1,7 +1,7 @@
 package main
 
 import (
-	"awesomeProject/net/udp"
+	myhttp "awesomeProject/net/http"
 	"fmt"
 )
 
@@ -52,7 +52,8 @@ func main() {
 	//}
 
 	//tcp.StartServer3()
-	udp.StartServer()
+	//udp.StartServer()
+	myhttp.StartServer()
 }
 
 //作用域的问题
