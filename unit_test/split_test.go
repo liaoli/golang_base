@@ -27,3 +27,60 @@ func TestSplitWithComplexSep(t *testing.T) {
 		t.Errorf("expected:%v, got:%v", want, got)
 	}
 }
+
+func TestSplitWithGroup(t *testing.T) {
+	// 定义一个测试用例类型
+	type test struct {
+		input string
+		sep   string
+		want  []string
+	}
+	// 定义一个存储测试用例的切片
+	tests := []test{
+		{input: "a:b:c", sep: ":", want: []string{"a", "b", "c"}},
+		{input: "a:b:c", sep: ",", want: []string{"a:b:c"}},
+		{input: "abcd", sep: "bc", want: []string{"a", "d"}},
+		{input: "沙河有沙又有河", sep: "沙", want: []string{"河有", "又有河"}},
+	}
+	// 遍历切片，逐一执行测试用例
+	for _, tc := range tests {
+		got := unit_test.Split(tc.input, tc.sep)
+		if !reflect.DeepEqual(got, tc.want) {
+			t.Errorf("expected:%#v, got:%#v", tc.want, got)
+		}
+	}
+}
+
+//我们都知道可以通过-run=RegExp来指定运行的测试用例，
+//还可以通过/来指定要运行的子测试用例，
+//例如：go test -v -run=Split/simple只会运行simple对应的子测试用例。
+func TestSplitWithSub(t *testing.T) {
+	type test struct { // 定义test结构体
+		input string
+		sep   string
+		want  []string
+	}
+	tests := map[string]test{ // 测试用例使用map存储
+		"simple":      {input: "a:b:c", sep: ":", want: []string{"a", "b", "c"}},
+		"wrong sep":   {input: "a:b:c", sep: ",", want: []string{"a:b:c"}},
+		"more sep":    {input: "abcd", sep: "bc", want: []string{"a", "d"}},
+		"leading sep": {input: "沙河有沙又有河", sep: "沙", want: []string{"河有", "又有河"}},
+	}
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) { // 使用t.Run()执行子测试
+			got := unit_test.Split(tc.input, tc.sep)
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Errorf("expected:%#v, got:%#v", tc.want, got)
+			}
+		})
+	}
+}
+
+//测试覆盖率是你的代码被测试套件覆盖的百分比。
+//通常我们使用的都是语句的覆盖率，也就是在测试中至少被运行一次的代码占总代码的比例。
+//Go提供内置功能来检查你的代码覆盖率。我们可以使用go test -cover来查看测试覆盖率。
+//
+//hfy@HFYdeMac-mini  ~/go/src/awesomeProject/unit_test   master ±  go test -cover
+//PASS
+//coverage: 100.0% of statements
+//ok      awesomeProject/unit_test        0.276s
