@@ -2,8 +2,11 @@ package unit_test_test
 
 import (
 	"awesomeProject/unit_test"
+	"fmt"
+	"os"
 	"reflect"
 	"testing"
+	"time"
 )
 
 /**
@@ -152,3 +155,84 @@ func BenchmarkSplit2(b *testing.B) {
 //BenchmarkSplit2-12      10246958               115.0 ns/op            48 B/op          1 allocs/op
 //PASS
 //ok      awesomeProject/unit_test        1.636s
+
+//重置时间
+//b.ResetTimer之前的处理不会放到执行时间里，也不会输出到报告中，所以可以在之前做一些不计划作为测试报告的操作。例如：
+
+func BenchmarkSplitResetTime(b *testing.B) {
+	time.Sleep(5 * time.Second) // 假设需要做一些耗时的无关操作
+	//b.ResetTimer()              // 重置计时器
+	for i := 0; i < b.N; i++ {
+		unit_test.Split("沙河有沙又有河", "沙")
+	}
+}
+
+//hfy@HFYdeMac-mini  ~/go/src/awesomeProject/unit_test   master ±✚  go test -bench=Reset
+//goos: darwin
+//goarch: amd64
+//pkg: awesomeProject/unit_test
+//cpu: Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz
+//BenchmarkSplitResetTime-12      10334128               114.8 ns/op  重置时间
+//PASS
+//ok      awesomeProject/unit_test        26.585s
+//hfy@HFYdeMac-mini  ~/go/src/awesomeProject/unit_test   master ±✚  go test -bench=Reset
+//goos: darwin
+//goarch: amd64
+//pkg: awesomeProject/unit_test
+//cpu: Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz
+//BenchmarkSplitResetTime-12             1        5001484849 ns/op   没有重置时间
+//PASS
+//ok      awesomeProject/unit_test        5.265s
+
+//并行测试
+//func (b *B) RunParallel(body func(*PB))会以并行的方式执行给定的基准测试。
+//
+//RunParallel会创建出多个goroutine，并将b.N分配给这些goroutine执行， 其中goroutine数量的默认值为GOMAXPROCS。
+//用户如果想要增加非CPU受限（non-CPU-bound）基准测试的并行性， 那么可以在RunParallel之前调用SetParallelism 。
+//RunParallel通常会与-cpu标志一同使用。
+
+func BenchmarkSplitParallel(b *testing.B) {
+	// b.SetParallelism(1) // 设置使用的CPU数
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			unit_test.Split("沙河有沙又有河", "沙")
+		}
+	})
+}
+
+//hfy@HFYdeMac-mini  ~/go/src/awesomeProject/unit_test   master ±✚  go test -bench=Parallel -cpu 2
+//goos: darwin
+//goarch: amd64
+//pkg: awesomeProject/unit_test
+//cpu: Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz
+//BenchmarkSplitParallel-2        19487834                59.85 ns/op
+//PASS
+//ok      awesomeProject/unit_test        1.283s
+
+//TestMain
+//通过在*_test.go文件中定义TestMain函数来可以在测试之前进行额外的设置（setup）或在测试之后进行拆卸（teardown）操作。
+//
+//如果测试文件包含函数:func TestMain(m *testing.M)那么生成的测试会先调用 TestMain(m)，然后再运行具体测试。
+//TestMain运行在主goroutine中, 可以在调用 m.Run前后做任何设置（setup）和拆卸（teardown）。
+//退出测试的时候应该使用m.Run的返回值作为参数调用os.Exit。
+func TestMain(m *testing.M) {
+	fmt.Println("write setup code here...") // 测试之前的做一些设置
+	// 如果 TestMain 使用了 flags，这里应该加上flag.Parse()
+	retCode := m.Run()                         // 执行测试
+	fmt.Println("write teardown code here...") // 测试之后做一些拆卸工作
+	os.Exit(retCode)                           // 退出测试
+}
+
+//hfy@HFYdeMac-mini  ~/go/src/awesomeProject/unit_test   master ±✚  go test -bench=Parallel -cpu 3
+//write setup code here...
+//goos: darwin
+//goarch: amd64
+//pkg: awesomeProject/unit_test
+//cpu: Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz
+//BenchmarkSplitParallel-3        27810723                41.59 ns/op
+//PASS
+//write teardown code here...
+//ok      awesomeProject/unit_test        1.554s
+
+//子测试的Setup与Teardown
+//有时候我们可能需要为每个测试集设置Setup与Teardown，也有可能需要为每个子测试设置Setup与Teardown。
