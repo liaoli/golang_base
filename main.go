@@ -58,7 +58,8 @@ func main() {
 	//fmt.Println(res)
 
 	//DataType()
-	ArrayDemo()
+	//ArrayDemo()
+	SliceDemo()
 }
 
 //作用域的问题
