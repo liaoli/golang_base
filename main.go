@@ -1,7 +1,6 @@
 package main
 
 import (
-	myhttp "awesomeProject/net/http"
 	"fmt"
 )
 
@@ -53,7 +52,13 @@ func main() {
 
 	//tcp.StartServer3()
 	//udp.StartServer()
-	myhttp.StartServer()
+	//myhttp.StartServer()
+	//res := math.Pow(1.1, 8)*40
+	//
+	//fmt.Println(res)
+
+	//DataType()
+	ArrayDemo()
 }
 
 //作用域的问题
