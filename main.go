@@ -61,7 +61,8 @@ func main() {
 	//ArrayDemo()
 	//SliceDemo()
 	//mapDemo()
-	FunctionDemo()
+	//FunctionDemo()
+	deferTestDemo()
 }
 
 //作用域的问题
