@@ -59,7 +59,8 @@ func main() {
 
 	//DataType()
 	//ArrayDemo()
-	SliceDemo()
+	//SliceDemo()
+	mapDemo()
 }
 
 //作用域的问题
