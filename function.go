@@ -362,5 +362,45 @@ func FunctionDemo() {
 	//CloserDemo2()
 	//CloserDemo3()
 	//CloserDemo4()
-	CloserDemo5()
+	//CloserDemo5()
+	panicDemo()
+}
+
+//内置函数介绍
+//内置函数	介绍
+//close	主要用来关闭channel
+//len	用来求长度，比如string、array、slice、map、channel
+//new	用来分配内存，主要用来分配值类型，比如int、struct。返回的是指针
+//make	用来分配内存，主要用来分配引用类型，比如chan、map、slice
+//append	用来追加元素到数组、slice中
+//panic和recover	用来做错误处理
+//panic/recover
+//Go语言中目前（Go1.12）是没有异常机制，但是使用panic/recover模式来处理错误。 panic可以在任何地方引发，但recover只有在defer调用的函数中有效。 首先来看一个例子：
+
+//内置函数介绍
+//内置函数	介绍
+//close	主要用来关闭channel
+//len	用来求长度，比如string、array、slice、map、channel
+//new	用来分配内存，主要用来分配值类型，比如int、struct。返回的是指针
+//make	用来分配内存，主要用来分配引用类型，比如chan、map、slice
+//append	用来追加元素到数组、slice中
+//panic和recover	用来做错误处理
+//panic/recover
+//Go语言中目前（Go1.12）是没有异常机制，但是使用panic/recover模式来处理错误。 panic可以在任何地方引发，但recover只有在defer调用的函数中有效。 首先来看一个例子：
+
+func funcA1() {
+	fmt.Println("func A")
+}
+
+func funcB1() {
+	panic("panic in B")
+}
+
+func funcC1() {
+	fmt.Println("func C")
+}
+func panicDemo() {
+	funcA1()
+	funcB1()
+	funcC1()
 }
