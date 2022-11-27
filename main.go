@@ -58,7 +58,7 @@ func main() {
 	//SliceDemo()
 	//mapDemo()
 	//FunctionDemo()
-	//deferTestDemo()
+	deferTestDemo()
 	//testRecover()
-	fmtDemo()
+	//fmtDemo()
 }

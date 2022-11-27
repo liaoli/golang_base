@@ -40,16 +40,16 @@ func deferTest1() {
 func fc1() int {
 	x := 5
 	defer func() {
-		x++
+		x++ //修改的是x不是返回值
 	}()
-	return x
+	return x //1。返回值赋值，2.defer 3. return RET指令
 }
 
 func fc2() (x int) {
 	defer func() {
 		x++
 	}()
-	return 5
+	return 5 //返回值 x= 5 2.defer x=6 3.RET x = 6
 }
 
 func fc3() (y int) {
@@ -57,19 +57,28 @@ func fc3() (y int) {
 	defer func() {
 		x++
 	}()
-	return x
+	return x //1.y = x = 5 2.defer x = 5 3.RET  y = 5
 }
 func fc4() (x int) {
 	defer func(x int) {
 		x++
 	}(x)
-	return 5
+	return 5 //1.x =5 //2defer x值传递，返回值的x 不会受影响 3.RET x = 5
 }
+
+func fc5() (x int) {
+	defer func(x *int) {
+		*x++
+	}(&x)
+	return 5 //1.x =5 //2defer x值传递，返回值的x 不会受影响 3.RET x = 5
+}
+
 func deferTest2() {
 	fmt.Println(fc1())
 	fmt.Println(fc2())
 	fmt.Println(fc3())
 	fmt.Println(fc4())
+	fmt.Println(fc5())
 }
 
 //defer面试题
@@ -79,6 +88,7 @@ func calcx(index string, a, b int) int {
 	return ret
 }
 
+//
 func deferTest3() {
 	x := 1
 	y := 2
@@ -88,10 +98,12 @@ func deferTest3() {
 	y = 20
 }
 
+//1.值传递和引用传递的区别
+
 //
 //问，上面代码的输出结果是？（提示：defer注册要延迟执行的函数时该函数所有的参数都需要确定其值）
 func deferTestDemo() {
 	//deferTest1()
-	//deferTest2()
-	deferTest3()
+	deferTest2()
+	//deferTest3()
 }
