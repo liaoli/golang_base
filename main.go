@@ -64,5 +64,7 @@ func main() {
 	//reflectDemo()
 	//reflectDemo1()
 	//reflectValueDemo()
-	reflectSetValuedemo()
+	//reflectSetValuedemo()
+	//nilValidDemo()
+	reflectStruct()
 }
