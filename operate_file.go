@@ -309,7 +309,7 @@ func readFile() {
 }
 
 func copyFile() {
-	f_r, err := os.Open("/Users/hfy/Desktop/as_aftersale_order_multi_model.yaml")
+	f_r, err := os.Open("./main.go")
 
 	if err != nil {
 		fmt.Println("打开文件错误 err:", err)
@@ -317,7 +317,8 @@ func copyFile() {
 	}
 	defer f_r.Close()
 
-	f_w, err := os.Create("/Users/hfy/Desktop/as_aftersale_order_multi_model_bak.yaml")
+	//f_w, err := os.Create("/Users/hfy/Desktop/as_aftersale_order_multi_model_bak.yaml")
+	f_w := os.Stdout
 
 	if err != nil {
 		fmt.Println("创建文件错误 err:", err)

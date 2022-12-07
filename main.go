@@ -1,7 +1,5 @@
 package main
 
-import "awesomeProject/log"
-
 var a int64
 
 func main() {
@@ -34,7 +32,7 @@ func main() {
 	//fmt.Print(r)
 
 	//structDemo()
-	//FileDemo()
+	FileDemo()
 	//goroutinesDemo()
 	//lockDemo()
 	//syncSysMap()
@@ -70,5 +68,5 @@ func main() {
 	//nilValidDemo()
 	//reflectStruct()
 	//log.LogDemo()
-	log.FLogDemo()
+	//log.FLogDemo()
 }
