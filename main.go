@@ -69,5 +69,6 @@ func main() {
 	//reflectSetValuedemo()
 	//nilValidDemo()
 	//reflectStruct()
-	log.LogDemo()
+	//log.LogDemo()
+	log.FLogDemo()
 }

@@ -11,13 +11,6 @@ import (
 *@date:2022/12/5
 **/
 
-type Level int8
-
-const (
-	info Level = iota
-	error
-)
-
 type FmtLogger struct {
 	level Level
 }
@@ -33,16 +26,6 @@ func (f *FmtLogger) Info(s string, v ...interface{}) {
 	f.printLog(s, v, info)
 }
 
-func (f FmtLogger) GetLevelDes(l Level) string {
-	switch l {
-	case info:
-		return "info"
-	case error:
-		return "error"
-	}
-	return ""
-}
-
 func (f *FmtLogger) printLog(s string, v []interface{}, l Level) {
 	t := time.Now().Format("2006-01-02 15:04:05.000")
 
@@ -56,7 +39,7 @@ func (f *FmtLogger) printLog(s string, v []interface{}, l Level) {
 	//fmt.Printf("%s方法%s %d\n",fun.Name(),fileFunc,nFunc)
 	content := fmt.Sprintf(s, v...)
 
-	lDes := f.GetLevelDes(l)
+	lDes := GetLevelDes(l)
 
 	fmt.Printf("[%s],%s,%s %s:%s:%d\n", lDes, t, content, file, fun.Name(), n)
 }
