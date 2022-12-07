@@ -1,5 +1,7 @@
 package main
 
+import "awesomeProject/log"
+
 var a int64
 
 func main() {
@@ -66,5 +68,6 @@ func main() {
 	//reflectValueDemo()
 	//reflectSetValuedemo()
 	//nilValidDemo()
-	reflectStruct()
+	//reflectStruct()
+	log.LogDemo()
 }
