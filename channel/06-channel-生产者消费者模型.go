@@ -1,4 +1,4 @@
-package main
+package channel_demo
 
 import (
 	"fmt"
@@ -20,7 +20,7 @@ func consumer(in <-chan int) {
 	}
 }
 
-func main() {
+func ChannelDemo6() {
 	ch := make(chan int, 6)
 	go producer(ch) // 子go程 生产者
 	consumer(ch)    // 主go程 消费

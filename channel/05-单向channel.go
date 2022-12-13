@@ -1,4 +1,4 @@
-package main
+package channel_demo
 
 import "fmt"
 
@@ -27,7 +27,7 @@ func recv(in <-chan int) {
 	fmt.Println("读到", n)
 }
 
-func main() {
+func ChannelDemo5() {
 	ch := make(chan int) // 双向channel
 	go func() {
 		send(ch) // 双向channel 转为 写channel

@@ -1,4 +1,4 @@
-package main
+package channel_demo
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ import (
 }*/
 
 // 定时器的停止和重置
-func main() {
+func ChannelDemo7() {
 
 	myTimer := time.NewTimer(time.Second * 10) // 创建定时器。
 	myTimer.Reset(1 * time.Second)             // 重置定时时长为 1

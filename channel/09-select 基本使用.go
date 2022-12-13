@@ -1,4 +1,4 @@
-package main
+package channel_demo
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func main() {
+func ChannelDemo9() {
 	ch := make(chan int)    // 用来进行数据通信的 channel
 	quit := make(chan bool) // 用来判断是否退出的 channel
 	//ch2 := make(chan string)

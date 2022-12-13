@@ -1,4 +1,4 @@
-package main
+package channel_demo
 
 import (
 	"fmt"
@@ -17,7 +17,7 @@ func fibonacci(ch <-chan int, quit <-chan bool) {
 	}
 }
 
-func main() {
+func ChannelDemo10() {
 	ch := make(chan int)
 	quit := make(chan bool)
 
@@ -29,4 +29,9 @@ func main() {
 		x, y = y, x+y
 	}
 	quit <- true
+}
+
+func ChannelDemo() {
+	ChannelDemo1()
+
 }

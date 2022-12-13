@@ -1,10 +1,10 @@
-package main
+package channel_demo
 
 import (
 	"fmt"
 )
 
-func main() {
+func ChannelDemo3() {
 	ch := make(chan int, 5) // 存满3个元素之前，不会阻塞
 	fmt.Println("len=", len(ch), "cap=", cap(ch))
 

@@ -1,4 +1,4 @@
-package main
+package channel_demo
 
 import (
 	"fmt"
@@ -27,7 +27,7 @@ import (
 	}
 }*/
 
-func main() {
+func ChannelDemo4() {
 	ch := make(chan int, 0)
 
 	go func() {

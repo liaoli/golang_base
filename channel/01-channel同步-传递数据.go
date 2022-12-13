@@ -1,8 +1,8 @@
-package main
+package channel_demo
 
 import "fmt"
 
-func main() {
+func ChannelDemo1() {
 	ch := make(chan string) // 无缓冲channel
 	// len(ch) ： channel 中剩余未读取数据个数。 cap（ch）： 通道的容量。
 	fmt.Println("len(ch)=", len(ch), "cap(ch)=", cap(ch))

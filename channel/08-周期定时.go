@@ -1,11 +1,11 @@
-package main
+package channel_demo
 
 import (
 	"fmt"
 	"time"
 )
 
-func main() {
+func ChannelDemo8() {
 
 	quit := make(chan bool) // 创建一个判断是否 终止的channel
 

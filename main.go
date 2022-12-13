@@ -1,6 +1,8 @@
 package main
 
-import "awesomeProject/goroutine"
+import (
+	channel_demo "awesomeProject/channel"
+)
 
 var a int64
 
@@ -72,5 +74,6 @@ func main() {
 	//log.LogDemo()
 	//log.FLogDemo()
 
-	goroutine.GoroutienDemo()
+	//goroutine.GoroutienDemo()
+	channel_demo.ChannelDemo()
 }
