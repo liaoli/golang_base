@@ -2,7 +2,6 @@ package channel_demo
 
 import (
 	"fmt"
-	"time"
 )
 
 /*func main()  {
@@ -38,7 +37,7 @@ func ChannelDemo4() {
 		//ch <- 790
 		fmt.Println("子go 结束")
 	}()
-	time.Sleep(time.Second * 2)
+	//time.Sleep(time.Second * 2)
 	/*	for {
 		if num, ok := <- ch; ok == true {
 			fmt.Println("读到数据：", num)
@@ -49,6 +48,6 @@ func ChannelDemo4() {
 		}
 	}*/
 	for num := range ch {
-		fmt.Println("读到数据：", num)
+		fmt.Println("读到数据：", num, len(ch), cap(ch))
 	}
 }
