@@ -1,5 +1,7 @@
 package main
 
+import "awesomeProject/goroutine"
+
 var a int64
 
 func main() {
@@ -32,7 +34,7 @@ func main() {
 	//fmt.Print(r)
 
 	//structDemo()
-	FileDemo()
+	//FileDemo()
 	//goroutinesDemo()
 	//lockDemo()
 	//syncSysMap()
@@ -69,4 +71,6 @@ func main() {
 	//reflectStruct()
 	//log.LogDemo()
 	//log.FLogDemo()
+
+	goroutine.GoroutienDemo()
 }

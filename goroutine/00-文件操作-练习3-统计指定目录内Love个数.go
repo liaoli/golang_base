@@ -1,4 +1,4 @@
-package main
+package goroutine
 
 import (
 	"bufio"
@@ -50,7 +50,7 @@ func wordCount(s string) int {
 	return 0 // 没有Love， 返回 0
 }
 
-func main() {
+func FileDemo() {
 	/*	// 测试从文件读一行
 		oneFilenum := readFile("C:/itcast/test2/test.txt")
 		fmt.Printf("一个文件中有：%d 个Love\n", oneFilenum)

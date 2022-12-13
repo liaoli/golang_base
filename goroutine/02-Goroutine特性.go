@@ -1,11 +1,11 @@
-package main
+package goroutine
 
 import (
 	"fmt"
 	"time"
 )
 
-func main() {
+func GoroutienDemo2() {
 
 	go func() { // 创建一个 子go 程
 		for i := 0; i < 5; i++ {

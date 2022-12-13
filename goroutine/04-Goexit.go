@@ -1,4 +1,4 @@
-package main
+package goroutine
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ func test() {
 	defer fmt.Println("ddddddddddddddddd")
 }
 
-func main() {
+func GoroutienDemo4() {
 
 	go func() {
 		defer fmt.Println("aaaaaaaaaa")

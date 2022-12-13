@@ -1,8 +1,7 @@
-package main
+package goroutine
 
 import (
 	"fmt"
-	"runtime"
 	"time"
 )
 
@@ -27,11 +26,11 @@ func person2() { // person 后执行
 	printer("wrold")
 }
 
-func main() {
+func GoroutienDemo6() {
 	go person1()
 	<-channel
 
 	go person2()
 
-	runtime.Goexit()
+	//runtime.Goexit()
 }
