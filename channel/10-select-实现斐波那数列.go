@@ -37,6 +37,7 @@ func ChannelDemo() {
 	//ChannelDemo3()
 	//ChannelDemo4()
 	//ChannelDemo5()
-	ChannelDemo6()
+	//ChannelDemo6()
+	ChannelDemo7()
 
 }
