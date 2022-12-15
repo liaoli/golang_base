@@ -1,4 +1,4 @@
-package main
+package sync_demo
 
 import (
 	"fmt"
@@ -55,7 +55,7 @@ func person2() { // 后
 	printer("world")
 }
 
-func main() {
+func LockDemo() {
 	go person1()
 	go person2()
 	for {

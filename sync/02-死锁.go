@@ -1,25 +1,27 @@
-package main
+package sync_demo
+
+import "fmt"
 
 // 死锁1
-/*func main()  {
-	ch :=make(chan int)
+func deadLockDemo1() {
+	ch := make(chan int)
 	ch <- 789
 	num := <-ch
 	fmt.Println("num = ", num)
-}*/
+}
 
 // 死锁2
-/*func main()  {
+func deadLockDemo2() {
 	ch := make(chan int)
 	go func() {
 		ch <- 789
 	}()
-	num := <- ch
+	num := <-ch
 	fmt.Println("num = ", num)
-}*/
+}
 
 // 死锁 3
-func main() {
+func deadLockDemo3() {
 	ch1 := make(chan int)
 	ch2 := make(chan int)
 	go func() { // 子
@@ -36,4 +38,10 @@ func main() {
 			ch1 <- num
 		}
 	}
+}
+
+func DeadLock() {
+	deadLockDemo1()
+	deadLockDemo2()
+	deadLockDemo3()
 }

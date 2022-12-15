@@ -1,4 +1,4 @@
-package main
+package sync_demo
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ func consumer(in <-chan int, idx int) {
 	}
 }
 
-func main() {
+func ProductConsumer() {
 	product := make(chan int)
 	rand.Seed(time.Now().UnixNano())
 

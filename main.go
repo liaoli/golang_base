@@ -2,6 +2,7 @@ package main
 
 import (
 	channel_demo "awesomeProject/channel"
+	sync_demo "awesomeProject/sync"
 )
 
 var a int64
@@ -76,4 +77,5 @@ func main() {
 
 	//goroutine.GoroutienDemo()
 	channel_demo.ChannelDemo()
+	sync_demo.SyncDemo()
 }

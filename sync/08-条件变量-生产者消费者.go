@@ -1,4 +1,4 @@
-package main
+package sync_demo
 
 import (
 	"fmt"
@@ -46,7 +46,7 @@ func consumer08(in <-chan int, idx int) {
 	}
 }
 
-func main() {
+func ProductConsumerWithCond() {
 	product := make(chan int, 5)
 	rand.Seed(time.Now().UnixNano())
 
@@ -66,4 +66,9 @@ func main() {
 	}*/
 	<-quit
 
+}
+
+func SyncDemo() {
+	SelectTimeOutDemo()
+	//LockDemo()
 }

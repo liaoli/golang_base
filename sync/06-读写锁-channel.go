@@ -1,4 +1,4 @@
-package main
+package sync_demo
 
 import (
 	"fmt"
@@ -23,7 +23,7 @@ func writeGo06(out chan<- int, idx int) {
 		time.Sleep(time.Millisecond * 300) // 放大实验现象
 	}
 }
-func main() {
+func RwLoakDemo3() {
 	// 播种随机数种子
 	rand.Seed(time.Now().UnixNano())
 	ch := make(chan int)

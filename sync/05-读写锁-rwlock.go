@@ -1,4 +1,4 @@
-package main
+package sync_demo
 
 import (
 	"fmt"
@@ -31,7 +31,7 @@ func writeGo05(idx int) {
 		rwMutex.Unlock()
 	}
 }
-func main() {
+func RwLoakDemo2() {
 	// 播种随机数种子
 	rand.Seed(time.Now().UnixNano())
 

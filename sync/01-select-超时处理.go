@@ -1,4 +1,4 @@
-package main
+package sync_demo
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ func test(ch chan int, quit chan bool) {
 
 }
 
-func main() {
+func SelectTimeOutDemo() {
 	ch := make(chan int)
 	quit := make(chan bool)
 	go func() { // 子go 程获取数据
