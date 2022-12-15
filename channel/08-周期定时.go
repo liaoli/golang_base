@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func ChannelDemo8() {
+func timeDemo4() {
 
 	quit := make(chan bool) // 创建一个判断是否 终止的channel
 

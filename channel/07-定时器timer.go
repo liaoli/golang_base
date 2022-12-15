@@ -55,6 +55,7 @@ func timeDemo3() {
 func ChannelDemo7() {
 	//timeDemo1()
 	//timeDemo2()
-	timeDemo3()
+	//timeDemo3()
+	timeDemo4()
 
 }
