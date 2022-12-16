@@ -3,6 +3,7 @@ package unit_test_test
 import (
 	"awesomeProject/unit_test"
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"os"
 	"reflect"
 	"testing"
@@ -22,7 +23,18 @@ func TestSplit(t *testing.T) {
 	}
 }
 
+func TestSplitAssert(t *testing.T) {
+	got := unit_test.Split("a:b:c", ":") // 程序输出的结果
+	want := []string{"a", "b", "c"}      // 期望的结果
+
+	assert := assert.New(t)
+	assert.Equal(want, got, "they should be equal")
+}
+
 //一个测试用例有点单薄，我们再编写一个测试使用多个字符切割字符串的例子，在split_test.go中添加如下测试函数：
+//在执行go test命令的时候可以添加-run参数，它对应一个正则表达式，只有函数名匹配上的测试函数才会被go test命令执行。
+//
+//例如通过给go test添加-run=Sep参数来告诉它本次测试只运行TestSplitWithComplexSep这个测试用例：
 func TestSplitWithComplexSep(t *testing.T) {
 	got := unit_test.Split("abcd", "bc")
 	want := []string{"a", "d"}
@@ -30,6 +42,14 @@ func TestSplitWithComplexSep(t *testing.T) {
 		t.Errorf("expected:%v, got:%v", want, got)
 	}
 }
+
+//hfy@HFYdeMac-mini  ~/go/src/awesomeProject/unit_test   master ±  go test  -run=Sep -v
+//write setup code here...
+//=== RUN   TestSplitWithComplexSep
+//--- PASS: TestSplitWithComplexSep (0.00s)
+//PASS
+//write teardown code here...
+//ok      awesomeProject/unit_test        0.048s
 
 func TestSplitWithGroup(t *testing.T) {
 	// 定义一个测试用例类型
@@ -68,9 +88,11 @@ func TestSplitWithSub(t *testing.T) {
 		"wrong sep":   {input: "a:b:c", sep: ",", want: []string{"a:b:c"}},
 		"more sep":    {input: "abcd", sep: "bc", want: []string{"a", "d"}},
 		"leading sep": {input: "沙河有沙又有河", sep: "沙", want: []string{"河有", "又有河"}},
+		"hahaha sep":  {input: "沙河有沙又有河", sep: "沙", want: []string{"河有", "又有河"}},
 	}
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) { // 使用t.Run()执行子测试
+			t.Parallel() //设置测试用例并行运行
 			got := unit_test.Split(tc.input, tc.sep)
 			if !reflect.DeepEqual(got, tc.want) {
 				t.Errorf("expected:%#v, got:%#v", tc.want, got)
