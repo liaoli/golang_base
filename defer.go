@@ -104,6 +104,21 @@ func deferTest3() {
 //问，上面代码的输出结果是？（提示：defer注册要延迟执行的函数时该函数所有的参数都需要确定其值）
 func deferTestDemo() {
 	//deferTest1()
-	deferTest2()
+	//deferTest2()
 	//deferTest3()
+}
+
+type T int
+
+func (t T) M(n int) T {
+	fmt.Println(n)
+	return t
+}
+
+func DeferDemo() {
+	var t T
+	// t.M(1)是方法调用M(2)的属主实参，因此它
+	// 将在M(2)调用被推入延迟调用队列时被估值。
+	defer t.M(1).M(2)
+	t.M(3).M(4)
 }
