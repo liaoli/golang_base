@@ -69,6 +69,12 @@ func ProductConsumerWithCond() {
 }
 
 func SyncDemo() {
-	SelectTimeOutDemo()
+	//SelectTimeOutDemo()
+	//DeadLock()
 	//LockDemo()
+	//RwLoakDemo1()
+	//RwLoakDemo2()
+	//RwLoakDemo3()
+	//ProductConsumer()
+	ProductConsumerWithCond()
 }

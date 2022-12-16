@@ -7,6 +7,7 @@ import (
 )
 
 //var value06 int		// 定义全局变量，模拟共享数据
+
 func readGo06(in <-chan int, idx int) {
 	for {
 		num := <-in // 从 channel 中读取数据

@@ -1,7 +1,6 @@
 package main
 
 import (
-	channel_demo "awesomeProject/channel"
 	sync_demo "awesomeProject/sync"
 )
 
@@ -76,6 +75,6 @@ func main() {
 	//log.FLogDemo()
 
 	//goroutine.GoroutienDemo()
-	channel_demo.ChannelDemo()
+	//channel_demo.ChannelDemo()
 	sync_demo.SyncDemo()
 }

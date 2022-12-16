@@ -3,7 +3,7 @@ package sync_demo
 import "fmt"
 
 // 死锁1
-func deadLockDemo1() {
+func deadLockDemo1() { //读写不能在同一个携程中
 	ch := make(chan int)
 	ch <- 789
 	num := <-ch
@@ -11,7 +11,7 @@ func deadLockDemo1() {
 }
 
 // 死锁2
-func deadLockDemo2() {
+func deadLockDemo2() { // 必须读和写对应同事存在，不然堵塞死锁
 	ch := make(chan int)
 	go func() {
 		ch <- 789
@@ -41,7 +41,7 @@ func deadLockDemo3() {
 }
 
 func DeadLock() {
-	deadLockDemo1()
-	deadLockDemo2()
+	//deadLockDemo1()
+	//deadLockDemo2()
 	deadLockDemo3()
 }

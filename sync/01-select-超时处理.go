@@ -14,6 +14,7 @@ func SelectTimeOutDemo() {
 	quit := make(chan bool)
 	go func() { // 子go 程获取数据
 		for {
+			fmt.Printf("循环----->")
 			select {
 			case num := <-ch:
 				fmt.Println("num = ", num)
@@ -26,7 +27,7 @@ func SelectTimeOutDemo() {
 		}
 	lable:
 	}()
-	for i := 0; i < 2; i++ {
+	for i := 0; i < 10; i++ {
 		ch <- i
 		time.Sleep(time.Second * 2)
 	}
