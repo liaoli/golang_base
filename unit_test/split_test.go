@@ -3,7 +3,6 @@ package unit_test_test
 import (
 	"awesomeProject/unit_test"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"os"
 	"reflect"
 	"testing"
@@ -24,11 +23,13 @@ func TestSplit(t *testing.T) {
 }
 
 func TestSplitAssert(t *testing.T) {
-	got := unit_test.Split("a:b:c", ":") // 程序输出的结果
-	want := []string{"a", "b", "c"}      // 期望的结果
+	//got := unit_test.Split("a:b:cd", ":") // 程序输出的结果
+	//want := []string{"a", "b", "c"}      // 期望的结果
 
-	assert := assert.New(t)
-	assert.Equal(want, got, "they should be equal")
+	//assert := assert.New(t)
+	//result := assert.Equal(want, got, "they should be equal")
+
+	//fmt.Println("test result ",result)
 }
 
 //一个测试用例有点单薄，我们再编写一个测试使用多个字符切割字符串的例子，在split_test.go中添加如下测试函数：
@@ -132,7 +133,7 @@ func TestSplitWithSub(t *testing.T) {
 //基准测试以Benchmark为前缀，需要一个*testing.B类型的参数b，基准测试必须要执行b.N次，
 //这样的测试才有对照性，b.N的值是系统根据实际情况去调整的，从而保证测试的稳定性。
 //go test -bench=Split
-func BenchmarkSplit(b *testing.B) {
+func BenchmarkSplitDemo(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		unit_test.Split("沙河有沙又有河", "沙")
 	}
@@ -147,7 +148,7 @@ func BenchmarkSplit(b *testing.B) {
 //PASS
 //ok      awesomeProject/unit_test        2.649s
 
-//其中BenchmarkSplit-8表示对Split函数进行基准测试，数字8表示GOMAXPROCS的值，这个对于并发基准测试很重要。
+//其中BenchmarkSplit-12表示对Split函数进行基准测试，数字8表示GOMAXPROCS的值，这个对于并发基准测试很重要。
 //10289245和114.7ns/op表示每次调用Split函数耗时114.7ns，这个结果是10289245次调用的平均值。
 //
 //我们还可以为基准测试添加-benchmem参数，来获得内存分配的统计数据。
