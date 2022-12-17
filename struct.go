@@ -31,6 +31,7 @@ import (
 //字段类型：表示结构体字段的具体类型。
 //举个例子，我们定义一个Person（人）结构体，代码如下：
 //
+
 //type person struct {
 //	name string
 //	city string
