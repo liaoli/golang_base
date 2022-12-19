@@ -1,11 +1,11 @@
-package main
+package sync_net
 
 import (
 	"fmt"
 	"net"
 )
 
-func main() {
+func udpClient() {
 	// 指定 服务器 IP + port 创建 通信套接字。
 	conn, err := net.Dial("udp", "127.0.0.1:8006")
 	if err != nil {

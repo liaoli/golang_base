@@ -1,6 +1,8 @@
 package main
 
-import "awesomeProject/net/cs"
+import (
+	sync_net "awesomeProject/net/sync"
+)
 
 var a int64
 
@@ -77,5 +79,6 @@ func main() {
 	//sync_demo.SyncDemo()
 
 	//DeferDemo()
-	cs.CSDemo()
+	//cs.CSDemo()
+	sync_net.SyncNetDemo()
 }

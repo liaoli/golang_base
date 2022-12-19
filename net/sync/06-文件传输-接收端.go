@@ -1,4 +1,4 @@
-package main
+package sync_net
 
 import (
 	"fmt"
@@ -28,7 +28,7 @@ func recvFile(conn net.Conn, fileName string) {
 	}
 }
 
-func main() {
+func fileServer() {
 	// 创建用于监听的socket
 	listener, err := net.Listen("tcp", "127.0.0.1:8008")
 	if err != nil {
@@ -59,4 +59,9 @@ func main() {
 
 	// 获取文件内容
 	recvFile(conn, fileName)
+}
+
+func SyncNetDemo() {
+	udpServer()
+
 }

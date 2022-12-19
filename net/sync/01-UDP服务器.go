@@ -1,4 +1,4 @@
-package main
+package sync_net
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func main() {
+func udpServer() {
 	// 组织一个 udp 地址结构, 指定服务器的IP+port
 	srvAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:8006")
 	if err != nil {

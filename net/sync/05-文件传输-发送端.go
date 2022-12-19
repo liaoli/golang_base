@@ -1,4 +1,4 @@
-package main
+package sync_net
 
 import (
 	"fmt"
@@ -37,7 +37,7 @@ func sendFile(conn net.Conn, filePath string) {
 	}
 }
 
-func main() {
+func fileClient() {
 	list := os.Args // 获取命令行参数
 
 	if len(list) != 2 {

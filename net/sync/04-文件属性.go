@@ -1,11 +1,11 @@
-package main
+package sync_net
 
 import (
 	"fmt"
 	"os"
 )
 
-func main() {
+func fileInfo() {
 	list := os.Args // 获取命令行参数
 
 	if len(list) != 2 {
