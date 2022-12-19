@@ -1,11 +1,11 @@
-package main
+package cs
 
 import (
 	"fmt"
 	"net"
 )
 
-func main() {
+func csClient() {
 	// 指定 服务器 IP + port 创建 通信套接字。
 	conn, err := net.Dial("tcp", "127.0.0.1:8000")
 	if err != nil {

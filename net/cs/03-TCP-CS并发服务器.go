@@ -1,4 +1,4 @@
-package main
+package cs
 
 import (
 	"fmt"
@@ -38,7 +38,7 @@ func HandlerConnect(conn net.Conn) {
 	}
 }
 
-func main() {
+func csServerSync() {
 	// 创建监听套接字
 	//listener, err := net.Listen("tcp", "127.0.0.1:8001")
 	listener, err := net.Listen("tcp", "192.168.15.78:8001")

@@ -1,4 +1,4 @@
-package main
+package cs
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func main() {
+func csClientSync() {
 	// 主动发起连接请求
 	conn, err := net.Dial("tcp", "192.168.15.78:8001")
 	if err != nil {
