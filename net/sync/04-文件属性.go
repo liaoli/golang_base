@@ -14,6 +14,9 @@ func fileInfo() {
 	}
 	// 提取文件名
 	path := list[1]
+
+	fmt.Println(path)
+
 	// 获取文件属性
 	fileInfo, err := os.Stat(path)
 	if err != nil {

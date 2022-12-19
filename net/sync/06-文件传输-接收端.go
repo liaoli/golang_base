@@ -62,6 +62,11 @@ func fileServer() {
 }
 
 func SyncNetDemo() {
-	udpServer()
+	//udpServer()
+	//udpClient()
+	//udpServerSync()
+	//fileInfo()
+	//fileServer()
+	fileClient()
 
 }
