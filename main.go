@@ -81,5 +81,6 @@ func main() {
 	//DeferDemo()
 	//cs.CSDemo()
 	//sync_net.SyncNetDemo()
-	chat_room.ChatRoomDemo()
+	//chat_room.MyChatRoomDemo()
+	chat_room.ChannelChatRoomDemo()
 }
