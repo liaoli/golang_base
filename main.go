@@ -1,7 +1,7 @@
 package main
 
 import (
-	sync_net "awesomeProject/net/sync"
+	chat_room "awesomeProject/net/chatRoom"
 )
 
 var a int64
@@ -80,5 +80,6 @@ func main() {
 
 	//DeferDemo()
 	//cs.CSDemo()
-	sync_net.SyncNetDemo()
+	//sync_net.SyncNetDemo()
+	chat_room.ChatRoomDemo()
 }
