@@ -36,5 +36,8 @@ func CSServer() {
 }
 
 func CSDemo() {
-	CSServer()
+	//CSServer()
+	//csClient()
+	//csServerSync()
+	csClientSync()
 }

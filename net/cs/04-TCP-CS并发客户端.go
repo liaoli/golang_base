@@ -8,7 +8,7 @@ import (
 
 func csClientSync() {
 	// 主动发起连接请求
-	conn, err := net.Dial("tcp", "192.168.15.78:8001")
+	conn, err := net.Dial("tcp", "192.168.1.143:8001")
 	if err != nil {
 		fmt.Println("net.Dial err:", err)
 		return
