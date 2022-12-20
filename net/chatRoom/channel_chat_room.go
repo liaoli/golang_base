@@ -3,6 +3,7 @@ package chat_room
 import (
 	"fmt"
 	"net"
+	"time"
 )
 
 /**
@@ -27,7 +28,7 @@ func makeMsg(c *MyClient, text string) (msg string) {
 
 func writeMsgToClient(client *MyClient, conn net.Conn) {
 	for msg := range client.C {
-		conn.Write([]byte(msg))
+		conn.Write([]byte(msg + "\n"))
 	}
 
 }
@@ -72,9 +73,12 @@ func ChannelChatRoomDemo() {
 }
 
 func handleConn(conn net.Conn) {
-	var romoteName string
-	var buf = make([]byte, 4096)
 
+	defer conn.Close()
+
+	hasData := make(chan bool)
+	isQuit := make(chan bool)
+	var romoteName string
 	rAddr := conn.RemoteAddr()
 	romoteName = rAddr.String()
 
@@ -89,13 +93,46 @@ func handleConn(conn net.Conn) {
 
 	Message <- makeMsg(client, "login")
 
+	go func() {
+		var buf = make([]byte, 4096)
+		for {
+			n, _ := conn.Read(buf)
+
+			if n != 0 {
+				recMsg := string(buf[:n-1])
+				switch recMsg {
+				case "who":
+					//获取在线用户列表
+					conn.Write([]byte("在线用户列表：\n"))
+					for _, c := range onLineClients {
+						conn.Write([]byte(c.name + "\n"))
+					}
+				default:
+					Message <- makeMsg(client, recMsg)
+				}
+
+			} else {
+				isQuit <- true
+				return
+			}
+			hasData <- true
+		}
+	}()
+
 	for {
-		n, _ := conn.Read(buf)
-
-		if n != 0 {
-			recMsg := string(buf[:n])
-
-			Message <- makeMsg(client, recMsg)
+		select {
+		case <-isQuit:
+			delete(onLineClients, client.name)
+			message <- makeMsg(client, "退出")
+			return
+		case <-hasData:
+		//有数据啥也不做
+		case <-time.After(time.Second * 60):
+			//60分钟不说话踢出
+			delete(onLineClients, client.name)
+			message <- makeMsg(client, "超过60秒不说话，下线")
+			return
 		}
 	}
+
 }
