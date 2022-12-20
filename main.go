@@ -83,4 +83,5 @@ func main() {
 	//sync_net.SyncNetDemo()
 	//chat_room.MyChatRoomDemo()
 	chat_room.ChannelChatRoomDemo()
+	//chat_room.ChatRoomDemo()
 }

@@ -39,6 +39,7 @@ func MessageManager() {
 
 		msg := <-Message
 
+		fmt.Println(msg)
 		for _, v := range onLineClients {
 			v.C <- msg
 		}
@@ -110,12 +111,12 @@ func handleConn(conn net.Conn) {
 				default:
 					Message <- makeMsg(client, recMsg)
 				}
-
+				hasData <- true
 			} else {
 				isQuit <- true
 				return
 			}
-			hasData <- true
+
 		}
 	}()
 
@@ -123,14 +124,14 @@ func handleConn(conn net.Conn) {
 		select {
 		case <-isQuit:
 			delete(onLineClients, client.name)
-			message <- makeMsg(client, "退出")
+			Message <- makeMsg(client, "退出")
 			return
 		case <-hasData:
 		//有数据啥也不做
 		case <-time.After(time.Second * 60):
 			//60分钟不说话踢出
 			delete(onLineClients, client.name)
-			message <- makeMsg(client, "超过60秒不说话，下线")
+			Message <- makeMsg(client, "超过60秒不说话，下线")
 			return
 		}
 	}
