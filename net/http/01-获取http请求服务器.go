@@ -15,7 +15,7 @@ func errFunc(err error, info string) {
 	}
 }
 
-func HttpServerDemo2() {
+func HttpServerDemo1() {
 
 	listener, err := net.Listen("tcp", "127.0.0.1:8000")
 	errFunc(err, "net.Listen err:")

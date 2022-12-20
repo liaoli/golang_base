@@ -10,7 +10,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("hello 9fud9fd9"))
 }
 
-func HttpServerDemo1() {
+func HttpServerDemo2() {
 	// 注册回调函数。 该回调函数会在服务器被访问时，自动被调用。
 	http.HandleFunc("/itcast", handler)
 

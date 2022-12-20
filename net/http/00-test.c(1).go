@@ -28,5 +28,8 @@ func gcDemo() {
 
 func HttpDemo() {
 	//gcDemo()
-	HttpServerDemo2()
+	//HttpServerDemo2()
+	//HttpClientDemo1()
+	//HttpServerDemo4()
+	HttpServerDemo5()
 }

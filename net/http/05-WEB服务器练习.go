@@ -3,11 +3,13 @@ package myhttp
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 )
 
 func OpenSendFile(fNmae string, w http.ResponseWriter) {
-	pathFileName := "C:/itcast/test" + fNmae
+	fNmae, _ = url.PathUnescape(fNmae)
+	pathFileName := "/Users/hfy/Downloads/" + fNmae
 	f, err := os.Open(pathFileName)
 	if err != nil {
 		fmt.Println("Open err:", err)
