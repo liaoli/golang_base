@@ -1,8 +1,6 @@
 package main
 
-import (
-	chat_room "awesomeProject/net/chatRoom"
-)
+import myhttp "awesomeProject/net/http"
 
 var a int64
 
@@ -82,6 +80,7 @@ func main() {
 	//cs.CSDemo()
 	//sync_net.SyncNetDemo()
 	//chat_room.MyChatRoomDemo()
-	chat_room.ChannelChatRoomDemo()
+	//chat_room.ChannelChatRoomDemo()
 	//chat_room.ChatRoomDemo()
+	myhttp.HttpDemo()
 }
