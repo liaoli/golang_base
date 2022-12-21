@@ -1,6 +1,8 @@
 package main
 
-import myhttp "awesomeProject/net/http"
+import (
+	"awesomeProject/net/regexp_demo"
+)
 
 var a int64
 
@@ -82,5 +84,6 @@ func main() {
 	//chat_room.MyChatRoomDemo()
 	//chat_room.ChannelChatRoomDemo()
 	//chat_room.ChatRoomDemo()
-	myhttp.HttpDemo()
+	//myhttp.HttpDemo()
+	regexp_demo.RegexpDemo()
 }
