@@ -67,7 +67,7 @@ func initDB() (err error) {
 //则新的最大闲置连接数会减小到匹配最大开启连接数的限制。 如果n<=0，不会保留闲置连接。
 
 type user struct {
-	ID   int64
+	Id   int64
 	Name string
 	Age  int64
 }
@@ -77,12 +77,12 @@ func queryRowDemo(id int) {
 	sqlStr := `select id, name, age from user where id=?`
 	var u user
 	// 非常重要：确保QueryRow之后调用Scan方法，否则持有的数据库链接不会被释放
-	err := db_sql.QueryRow(sqlStr, id).Scan(&u.ID, &u.Name, &u.Age)
+	err := db_sql.QueryRow(sqlStr, id).Scan(&u.Id, &u.Name, &u.Age)
 	if err != nil {
 		fmt.Printf("scan failed, err:%v\n", err)
 		return
 	}
-	fmt.Printf("id:%d name:%s age:%d\n", u.ID, u.Name, u.Age)
+	fmt.Printf("id:%d name:%s age:%d\n", u.Id, u.Name, u.Age)
 }
 
 // 查询多条数据示例
@@ -99,12 +99,12 @@ func queryMultiRowDemo() {
 	// 循环读取结果集中的数据
 	for rows.Next() {
 		var u user
-		err := rows.Scan(&u.ID, &u.Name, &u.Age)
+		err := rows.Scan(&u.Id, &u.Name, &u.Age)
 		if err != nil {
 			fmt.Printf("scan failed, err:%v\n", err)
 			return
 		}
-		fmt.Printf("id:%d name:%s age:%d\n", u.ID, u.Name, u.Age)
+		fmt.Printf("id:%d name:%s age:%d\n", u.Id, u.Name, u.Age)
 	}
 }
 
@@ -122,12 +122,12 @@ func queryMultiRowDemo2(ids []int64) {
 	// 循环读取结果集中的数据
 	for rows.Next() {
 		var u user
-		err := rows.Scan(&u.ID, &u.Name, &u.Age)
+		err := rows.Scan(&u.Id, &u.Name, &u.Age)
 		if err != nil {
 			fmt.Printf("scan failed, err:%v\n", err)
 			return
 		}
-		fmt.Printf("id:%d name:%s age:%d\n", u.ID, u.Name, u.Age)
+		fmt.Printf("id:%d name:%s age:%d\n", u.Id, u.Name, u.Age)
 	}
 }
 
@@ -141,7 +141,7 @@ func insertRowDemo(name string, age int64) {
 	}
 	theID, err := ret.LastInsertId() // 新插入数据的id
 	if err != nil {
-		fmt.Printf("get lastinsert ID failed, err:%v\n", err)
+		fmt.Printf("get lastinsert Id failed, err:%v\n", err)
 		return
 	}
 	fmt.Printf("insert success, the id is %d.\n", theID)

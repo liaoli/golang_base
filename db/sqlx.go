@@ -1,9 +1,11 @@
 package db
 
 import (
+	"database/sql/driver"
 	"errors"
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	"strings"
 )
 
 /**
@@ -35,7 +37,7 @@ func queryRowSqlxDemo() {
 		fmt.Printf("get failed, err:%v\n", err)
 		return
 	}
-	fmt.Printf("id:%d name:%s age:%d\n", u.ID, u.Name, u.Age)
+	fmt.Printf("id:%d name:%s age:%d\n", u.Id, u.Name, u.Age)
 }
 
 // 查询多条数据示例
@@ -60,7 +62,7 @@ func insertRowSqlxDemo() {
 	}
 	theID, err := ret.LastInsertId() // 新插入数据的id
 	if err != nil {
-		fmt.Printf("get lastinsert ID failed, err:%v\n", err)
+		fmt.Printf("get lastinsert Id failed, err:%v\n", err)
 		return
 	}
 	fmt.Printf("insert success, the id is %d.\n", theID)
@@ -200,6 +202,152 @@ func transactionDemo2() (err error) {
 	}
 	return err
 }
+
+//sqlx.In
+//sqlx.In是sqlx提供的一个非常方便的函数。
+//
+//sqlx.In的批量插入示例
+//表结构
+//为了方便演示插入数据操作，这里创建一个user表，表结构如下：
+//
+//CREATE TABLE `user` (
+//`id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+//`name` VARCHAR(20) DEFAULT '',
+//`age` INT(11) DEFAULT '0',
+//PRIMARY KEY(`id`)
+//)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+//结构体
+//定义一个user结构体，字段通过tag与数据库中user表的列一致。
+//
+//type User struct {
+//	Name string `db:"name"`
+//	Age  int    `db:"age"`
+//}
+//bindvars（绑定变量）
+//查询占位符?在内部称为bindvars（查询占位符）,它非常重要。你应该始终使用它们向数据库发送值，因为它们可以防止SQL注入攻击。
+//database/sql不尝试对查询文本进行任何验证；它与编码的参数一起按原样发送到服务器。除非驱动程序实现一个特殊的接口，否则在执行之前，
+//查询是在服务器上准备的。因此bindvars是特定于数据库的:
+//
+//MySQL中使用?
+//PostgreSQL使用枚举的$1、$2等bindvar语法
+//SQLite中?和$1的语法都支持
+//Oracle中使用:name的语法
+//bindvars的一个常见误解是，它们用来在sql语句中插入值。它们其实仅用于参数化，不允许更改SQL语句的结构。
+//例如，使用bindvars尝试参数化列或表名将不起作用：
+//
+//// ？不能用来插入表名（做SQL语句中表名的占位符）
+//db.Query("SELECT * FROM ?", "mytable")
+//
+//// ？也不能用来插入列名（做SQL语句中列名的占位符）
+//db.Query("SELECT ?, ? FROM people", "name", "location")
+//自己拼接语句实现批量插入
+//比较笨，但是很好理解。就是有多少个User就拼接多少个(?, ?)。
+
+// BatchInsertUsers 自行构造批量插入的语句
+func BatchInsertUsers(users []*user) error {
+	// 存放 (?, ?) 的slice
+	valueStrings := make([]string, 0, len(users))
+	// 存放values的slice
+	valueArgs := make([]interface{}, 0, len(users)*2)
+	// 遍历users准备相关数据
+	for _, u := range users {
+		// 此处占位符要与插入值的个数对应
+		valueStrings = append(valueStrings, "(?, ?)")
+		valueArgs = append(valueArgs, u.Name)
+		valueArgs = append(valueArgs, u.Age)
+	}
+	// 自行拼接要执行的具体语句
+	stmt := fmt.Sprintf("INSERT INTO user (name, age) VALUES %s",
+		strings.Join(valueStrings, ","))
+	fmt.Println(stmt)
+	_, err := db.Exec(stmt, valueArgs...)
+	return err
+}
+
+//使用sqlx.In实现批量插入
+//前提是需要我们的结构体实现driver.Valuer接口：
+//
+//func (u User) Value() (driver.Value, error) {
+//	return []interface{}{u.Name, u.Age}, nil
+//}
+//使用sqlx.In实现批量插入代码如下：
+
+// BatchInsertUsers2 使用sqlx.In帮我们拼接语句和参数, 注意传入的参数是[]interface{}
+func BatchInsertUsers2(users []interface{}) error {
+	query, args, err := sqlx.In(
+		"INSERT INTO user (id,name, age) VALUES (?), (?),(?)",
+		users..., // 如果arg实现了 driver.Valuer, sqlx.In 会通过调用 Value()来展开它
+	)
+
+	if err != nil {
+		fmt.Printf(err.Error())
+	}
+	fmt.Println(query) // 查看生成的querystring
+	fmt.Println(args)  // 查看生成的args
+	_, err = db.Exec(query, args...)
+	return err
+}
+
+func (u *user) Value() (driver.Value, error) {
+	return []interface{}{u.Id, u.Name, u.Age}, nil
+}
+
+//使用NamedExec实现批量插入
+//注意 ：该功能需1.3.1版本以上，并且1.3.1版本目前还有点问题，sql语句最后不能有空格和;，详见issues/690。
+//
+//使用NamedExec实现批量插入的代码如下：
+
+// BatchInsertUsers3 使用NamedExec实现批量插入
+func BatchInsertUsers3(users []*user) error {
+	_, err := db.NamedExec("INSERT INTO user (name, age) VALUES (:name, :age)", users)
+	return err
+}
+
+//sqlx.In的查询示例
+//关于sqlx.In这里再补充一个用法，在sqlx查询语句中实现In查询和FIND_IN_SET函数。即实现SELECT * FROM user WHERE id in (3, 2, 1);
+//和SELECT * FROM user WHERE id in (3, 2, 1) ORDER BY FIND_IN_SET(id, '3,2,1');。
+//
+//in查询
+//查询id在给定id集合中的数据。
+
+// QueryByIDs 根据给定ID查询
+func QueryByIDs(ids []int) (users []user, err error) {
+	// 动态填充id
+	query, args, err := sqlx.In("SELECT name, age FROM user WHERE id IN (?)", ids)
+	if err != nil {
+		return
+	}
+	// sqlx.In 返回带 `?` bindvar的查询语句, 我们使用Rebind()重新绑定它
+	query = db.Rebind(query)
+
+	err = db.Select(&users, query, args...)
+	return
+}
+
+//in查询和FIND_IN_SET函数
+//查询id在给定id集合的数据并维持给定id集合的顺序。
+
+// QueryAndOrderByIDs 按照指定id查询并维护顺序
+func QueryAndOrderByIDs(ids []int) (users []user, err error) {
+	// 动态填充id
+	strIDs := make([]string, 0, len(ids))
+	for _, id := range ids {
+		strIDs = append(strIDs, fmt.Sprintf("%d", id))
+	}
+	query, args, err := sqlx.In("SELECT id, name, age FROM user WHERE id IN (?) ORDER BY FIND_IN_SET(id, ?)", ids, strings.Join(strIDs, ","))
+	if err != nil {
+		return
+	}
+
+	// sqlx.In 返回带 `?` bindvar的查询语句, 我们使用Rebind()重新绑定它
+	query = db.Rebind(query)
+
+	err = db.Select(&users, query, args...)
+	return
+}
+
+//当然，在这个例子里面你也可以先使用IN查询，然后通过代码按给定的ids对查询结果进行排序。
+
 func SqlxDemo() {
 
 	initDBWithSqlx()
@@ -210,5 +358,27 @@ func SqlxDemo() {
 	//deleteRowSqlxDemo()
 	//namedQuery()
 
-	transactionDemo2()
+	//transactionDemo2()
+	//var users []interface{}
+	var users []*user
+	for i := 5; i < 15; i++ {
+		users = append(users, &user{
+			Name: fmt.Sprintf("name%d", i+10),
+			Age:  int64(i + 15),
+		})
+	}
+
+	//BatchInsertUsers(users)
+
+	//BatchInsertUsers2(users)
+
+	//BatchInsertUsers3(users)
+
+	//r,_:=QueryByIDs([]int{2,6,7,3,4,5})
+	r, _ := QueryAndOrderByIDs([]int{2, 6, 7, 3, 4, 5})
+
+	for _, v := range r {
+		fmt.Printf("%#v\n", v)
+	}
+
 }

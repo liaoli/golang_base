@@ -50,12 +50,12 @@ func prepareQueryDemo() {
 	// 循环读取结果集中的数据
 	for rows.Next() {
 		var u user
-		err := rows.Scan(&u.ID, &u.Name, &u.Age)
+		err := rows.Scan(&u.Id, &u.Name, &u.Age)
 		if err != nil {
 			fmt.Printf("scan failed, err:%v\n", err)
 			return
 		}
-		fmt.Printf("id:%d name:%s age:%d\n", u.ID, u.Name, u.Age)
+		fmt.Printf("id:%d name:%s age:%d\n", u.Id, u.Name, u.Age)
 	}
 }
 
