@@ -84,5 +84,6 @@ func main() {
 	//chat_room.ChatRoomDemo()
 	//myhttp.HttpDemo()
 	//regexp_demo.RegexpDemo()
-	db.DbDemo()
+	//db.DbDemo()
+	db.SqlxDemo()
 }

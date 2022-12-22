@@ -27,7 +27,7 @@ import "fmt"
 //Go实现MySQL预处理
 //database/sql中使用下面的Prepare方法来实现预处理操作。
 //
-//func (db *DB) Prepare(query string) (*Stmt, error)
+//func (db_sql *DB) Prepare(query string) (*Stmt, error)
 //Prepare方法会先将sql语句发送给MySQL服务端，返回一个准备好的状态用于之后的查询和命令。返回值可以同时执行多个查询和命令。
 //
 //查询操作的预处理示例代码如下：
@@ -35,7 +35,7 @@ import "fmt"
 // 预处理查询示例
 func prepareQueryDemo() {
 	sqlStr := "select id, name, age from user where id > ?"
-	stmt, err := db.Prepare(sqlStr)
+	stmt, err := db_sql.Prepare(sqlStr)
 	if err != nil {
 		fmt.Printf("prepare failed, err:%v\n", err)
 		return
@@ -50,19 +50,19 @@ func prepareQueryDemo() {
 	// 循环读取结果集中的数据
 	for rows.Next() {
 		var u user
-		err := rows.Scan(&u.id, &u.name, &u.age)
+		err := rows.Scan(&u.ID, &u.Name, &u.Age)
 		if err != nil {
 			fmt.Printf("scan failed, err:%v\n", err)
 			return
 		}
-		fmt.Printf("id:%d name:%s age:%d\n", u.id, u.name, u.age)
+		fmt.Printf("id:%d name:%s age:%d\n", u.ID, u.Name, u.Age)
 	}
 }
 
 // 预处理插入示例
 func prepareInsertDemo() {
 	sqlStr := "insert into user(name, age) values (?,?)"
-	stmt, err := db.Prepare(sqlStr)
+	stmt, err := db_sql.Prepare(sqlStr)
 	if err != nil {
 		fmt.Printf("prepare failed, err:%v\n", err)
 		return
