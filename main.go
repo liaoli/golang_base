@@ -1,8 +1,6 @@
 package main
 
-import (
-	"awesomeProject/net/regexp_demo"
-)
+import "awesomeProject/db"
 
 var a int64
 
@@ -85,5 +83,6 @@ func main() {
 	//chat_room.ChannelChatRoomDemo()
 	//chat_room.ChatRoomDemo()
 	//myhttp.HttpDemo()
-	regexp_demo.RegexpDemo()
+	//regexp_demo.RegexpDemo()
+	db.DbDemo()
 }
