@@ -388,7 +388,7 @@ const routineCount = 100
 
 func watchINCR() {
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10000*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
 	defer cancel()
 	increment := func(key string) error {
 		txf := func(tx *redis.Tx) error {
