@@ -1,6 +1,6 @@
 package main
 
-import "awesomeProject/redis_demo"
+import "awesomeProject/context_demo"
 
 var a int64
 
@@ -86,5 +86,6 @@ func main() {
 	//regexp_demo.RegexpDemo()
 	//db.DbDemo()
 	//db.SqlxDemo()
-	redis_demo.RedisDemo()
+	//redis_demo.RedisDemo()
+	context_demo.ContextDemo()
 }
