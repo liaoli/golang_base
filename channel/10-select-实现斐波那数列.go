@@ -1,6 +1,7 @@
 package channel_demo
 
 import (
+	"awesomeProject/channel/data_stream"
 	"fmt"
 	"runtime"
 )
@@ -44,5 +45,6 @@ func ChannelDemo() {
 	//ChannelDemo11()
 	//ChannelDemo12()
 	//ChannelDemo13()
-	PlayBallDemo()
+	//PlayBallDemo()
+	data_stream.DataStreamDemo()
 }
