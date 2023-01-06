@@ -1,7 +1,7 @@
 package main
 
 import (
-	channel_demo "awesomeProject/channel"
+	gin_demo "awesomeProject/ginDemo"
 )
 
 var a int64
@@ -90,5 +90,6 @@ func main() {
 	//db.SqlxDemo()
 	//redis_demo.RedisDemo()
 	//context_demo.ContextDemo()
-	channel_demo.ChannelDemo()
+	//channel_demo.ChannelDemo()
+	gin_demo.GinDemo1()
 }
